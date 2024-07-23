@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  @apply min-h-screen w-full bg-white; /* Default background color */
+}
+
+.dark html, .dark body {
+  @apply bg-dark-body; /* Dark mode background color */
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
