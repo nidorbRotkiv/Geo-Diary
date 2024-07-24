@@ -15,7 +15,6 @@ export default function Login() {
   const { colorScheme } = useColorScheme();
 
   useEffect(() => {
-    console.log(colorScheme);
     session && router.push("/map");
   }, [session]);
 
