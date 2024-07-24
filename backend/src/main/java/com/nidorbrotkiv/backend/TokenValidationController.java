@@ -30,18 +30,18 @@ public class TokenValidationController {
 
                 Map<String, Object> responseBody = new HashMap<>();
                 if (timeUntilExpiry > 0) {
-                    responseBody.put("message", "Token is valid.");
+                    responseBody.put("message", "Valid token.");
                     responseBody.put("timeUntilExpiration", timeUntilExpiry);
                     return ResponseEntity.ok(responseBody);
                 }
             } catch (JwtException e) {
                 Map<String, String> error = new HashMap<>();
-                error.put("error", "Invalid token: " + e.getMessage());
+                error.put("message", "Invalid token: " + e.getMessage());
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
             }
         }
         Map<String, String> error = new HashMap<>();
-        error.put("error", "Authorization header is missing or does not start with Bearer.");
+        error.put("message", "Invalid token: Authorization header is missing or does not start with Bearer.");
         return ResponseEntity.badRequest().body(error);
     }
 }
