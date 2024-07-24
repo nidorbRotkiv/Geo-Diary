@@ -110,6 +110,8 @@ To run this project, you will need to add the following environment variables to
 
 `google.cloud.project-id`
 
+`allowed.emails`
+
 ## 🧰 Getting Started
 
 ### ⚙️ Setup
