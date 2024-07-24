@@ -13,7 +13,7 @@ import * as mapOperations from "@/app/utils/mapUtils";
 import "@/app/styles/mapStyles.css";
 import { toast } from "react-toastify";
 import useOutsideClick from "@/app/hooks/useOutsideClick";
-import { getMarkers, isTokenValid } from "@/app/services/globalServices";
+import { getMarkers, validateSessionToken } from "@/app/services/globalServices";
 import { useSwal } from "@/app/contexts/SwalContext";
 import DrawerMenu from "@/app/components/global/DrawerMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -117,12 +117,16 @@ const Map: React.FC<MapProps> = ({ markerId }) => {
   useEffect(() => {
     const validateToken = async () => {
       const attempts = 4;
-      let valid = await isTokenValid(session!);
-      for (let i = 0; !valid && i < attempts; i++) {
-        valid = await isTokenValid(session!);
+      let tokenValidityMessage = await validateSessionToken(session!);
+      for (let i = 0; !tokenValidityMessage.startsWith("Valid") && i < attempts; i++) {
+        tokenValidityMessage = await validateSessionToken(session!);
       }
-      if (!valid) {
-        toast.error("Your session has expired. Please log in again.");
+      if (!tokenValidityMessage.startsWith("Valid")) {
+        if (tokenValidityMessage === "Invalid: Unauthorized email") {
+          toast.error("Unauthorized email. Please request access from the administrator.");
+        } else {
+          toast.error("Your session has expired. Please log in again.");
+        }
         await signOut({ redirect: false });
         router.push("/");
       }
@@ -398,8 +402,9 @@ const Map: React.FC<MapProps> = ({ markerId }) => {
   async function fetchDatabaseMarkers(): Promise<ExtendedMarker[]> {
     async function fetchAndRetryMarkers() {
       let timeout = 2500;
+      const maxAttempts = 6;
       let dbMarkersData = await getMarkers(session!, timeout);
-      for (let i = 0; dbMarkersData.length === 0 && i < 6; i++) {
+      for (let i = 0; dbMarkersData.length === 0 && i < maxAttempts; i++) {
         if (dbMarkersData === "No markers for this user") {
           return [];
         }
@@ -484,10 +489,10 @@ const Map: React.FC<MapProps> = ({ markerId }) => {
 
   const onUpdateMarker = async (values: MarkerCreationForm): Promise<void> => {
     for (const [key, value] of Object.entries(values)) {
-      if (typeof value === 'string' && REGEX_FOR_SANITIZATION.test(value)) {
+      if (typeof value === "string" && REGEX_FOR_SANITIZATION.test(value)) {
         toast.error("Invalid characters in form field: " + key);
         return;
-      }      
+      }
     }
     const res = await updateMarker(values);
     res === "success"
@@ -603,7 +608,7 @@ const Map: React.FC<MapProps> = ({ markerId }) => {
           showCrosshair ? "crosshair-visible" : "crosshair-hidden"
         } p-2 bg-white bg-opacity-40 text-black 
         dark:bg-black dark:bg-opacity-40 dark:text-gray-300 rounded-full`}
-        onClick={createMarkerAtCenter} 
+        onClick={createMarkerAtCenter}
       >
         <FontAwesomeIcon icon={faCrosshairs} beatFade size="3x" />
       </div>
