@@ -18,6 +18,13 @@ export default function Login() {
     session && router.push("/map");
   }, [session]);
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   const buttonStyle: CSSProperties = {
     width: "100%",
     maxWidth: "250px",
@@ -33,7 +40,10 @@ export default function Login() {
         <FontAwesomeIcon icon={faCircleNotch} spin size="5x" className="mt-10" />
       ) : (
         <div className="mt-24">
-          <h1 className="text-6xl mb-5">Geo Diary</h1>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <span className="inline-block font-bold px-1.5 ml-44 py-1 rounded mb-2 bg-white text-black dark:bg-black dark:text-white">BETA</span>
+            <h1 className="text-6xl mb-5">Geo Diary</h1>
+          </div>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <button
               onClick={() => signIn("google")}
