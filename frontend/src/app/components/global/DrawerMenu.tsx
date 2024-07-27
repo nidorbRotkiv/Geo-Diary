@@ -16,6 +16,8 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { Chokokutai } from "next/font/google";
+const chokokutai = Chokokutai({ subsets: ["latin"], weight: ["400"] });
 
 interface DrawerMenuProps {
   handleLeavingChild?: () => void;
@@ -100,10 +102,10 @@ export default function DrawerMenu({ handleLeavingChild, handleEnteringChild }: 
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         <div className="w-full navbar bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-50 flex justify-between items-center">
-          <div className="flex-1 mx-3 flex justify-start text-lg">
-            <div className="cursor-pointer flex" onClick={() => router.push("/")}>
-              Geo Diary
-              <Image src="/images/marker/selected.png" alt="Logo" width={27} height={27} />
+          <div className="flex-1 mx-3 flex justify-start text-xl">
+            <div className={`cursor-pointer flex ${chokokutai.className}`} onClick={() => router.push("/")}>
+              GEO DIARY
+              <Image src="/images/marker/selected.png" alt="Logo" width={30} height={30} />
             </div>
           </div>
           <div className="flex-none md_lg:hidden">
