@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useColorScheme } from "@/app/contexts/ColorSchemeContext";
+import { Chokokutai } from "next/font/google";
+const chokokutai = Chokokutai({ subsets: ["latin"], weight: ["400"] });
 
 export default function Login() {
   const { data: session, status } = useSession();
@@ -41,8 +43,10 @@ export default function Login() {
       ) : (
         <div className="mt-24">
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <span className="inline-block font-bold px-1.5 ml-44 py-1 rounded mb-2 bg-white text-black dark:bg-black dark:text-white">BETA</span>
-            <h1 className="text-6xl mb-5">Geo Diary</h1>
+            <span className="inline-block font-bold px-1.5 ml-44 py-1 rounded bg-white text-black dark:bg-black dark:text-white">
+              BETA
+            </span>
+            <h1 className={`text-7xl mb-5 ${chokokutai.className}`}>GEO DIARY</h1>
           </div>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <button
