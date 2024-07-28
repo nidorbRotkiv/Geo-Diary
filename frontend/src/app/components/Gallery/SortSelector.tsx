@@ -14,9 +14,10 @@ const SortSelector: React.FC<SortSelectorProps> = ({ sortMethod, setSortMethod }
       onChange={(e) => setSortMethod(e.target.value)}
       className="p-1 rounded bg-white dark:bg-black text-black dark:text-slate-300 select-none focus:outline-none focus:ring-0"
     >
-      <option value="date">Date</option>
-      <option value="distance">Distance</option>
-      <option value="title">Title</option>
+      <option value="mostRecent">Most recent</option>
+      <option value="closestDistance">Closest distance</option>
+      <option value="title">Alphabetical</option>
+      <option value="coldest">Coldest</option>
     </select>
   </div>
 );

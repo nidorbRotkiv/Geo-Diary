@@ -65,7 +65,7 @@ export default function Gallery() {
 
   const sortMarkers = useCallback(
     (markers: SimpleMarker[], method: string) => {
-      if (method === "distance" && userCoordinates) {
+      if (method === "closestDistance" && userCoordinates) {
         const [lat, lng] = userCoordinates;
         return markers
           .map((marker) => ({
@@ -75,6 +75,8 @@ export default function Gallery() {
           .sort((a, b) => a.distance - b.distance);
       } else if (method === "title") {
         return [...markers].sort((a, b) => a.title.localeCompare(b.title));
+      } else if (method === "coldest") {
+        return [...markers].sort((a, b) => a.weatherInfo.temp - b.weatherInfo.temp);
       } else {
         return [...markers].sort((a, b) => b.weatherInfo.dt - a.weatherInfo.dt);
       }
