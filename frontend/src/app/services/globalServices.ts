@@ -8,7 +8,7 @@ export async function getMarkers(session: Session, timeout: number): Promise<any
   if (tokenValidityMessage.startsWith("Invalid")) {
     throw new Error("Invalid session token");
   }
-  
+
   const headers = new Headers({
     Authorization: `Bearer ${session.idToken}`,
     Accept: "application/json",
@@ -55,5 +55,9 @@ export async function validateSessionToken(session: Session): Promise<string> {
     setTimeout(() => resolve("Timeout: The request took too long"), 6000)
   );
 
-  return Promise.race([fetchPromise, timeoutPromise]).catch(() => "Error: Something went wrong");
+  return Promise.race([fetchPromise, timeoutPromise])
+    .catch(() => "Invalid token: Something went wrong")
+    .then((result) => {
+      return typeof result === "string" ? result : "Invalid token: Not string";
+    });
 }
