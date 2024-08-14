@@ -72,7 +72,7 @@ To run this project, you will need to add the following environment variables to
 
 `NEXT_PUBLIC_MAPTILER_API_KEY`
 
-NEXT_PUBLIC_HOST_EMAIL_ADDRESS
+`NEXT_PUBLIC_HOST_EMAIL_ADDRESS`
 
 `GEOCODING_API_KEY`
 
